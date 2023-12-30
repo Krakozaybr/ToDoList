@@ -74,8 +74,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
 
     // Dagger and hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-android-compiler:2.50")
 
     // Tests
     testImplementation("junit:junit:4.13.2")

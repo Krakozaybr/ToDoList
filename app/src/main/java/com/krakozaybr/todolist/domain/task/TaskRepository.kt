@@ -1,7 +1,6 @@
 package com.krakozaybr.todolist.domain.task
 
 import androidx.lifecycle.LiveData
-import java.util.Date
 
 interface TaskRepository {
 
