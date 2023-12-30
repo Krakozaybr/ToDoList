@@ -1,6 +1,7 @@
 package com.krakozaybr.todolist.data.db
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -24,7 +25,7 @@ abstract class AppDatabase : RoomDatabase() {
         private var instance: AppDatabase? = null
         private val LOCK = Any()
 
-        fun getInstance(application: Application): AppDatabase {
+        fun getInstance(applicationContext: Context): AppDatabase {
             instance?.let {
                 return it
             }
@@ -33,7 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
                     return it
                 }
                 val db = Room.databaseBuilder(
-                    application,
+                    applicationContext,
                     AppDatabase::class.java,
                     DATABASE_NAME
                 ).build()

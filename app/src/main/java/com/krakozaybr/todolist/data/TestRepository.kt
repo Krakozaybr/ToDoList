@@ -6,9 +6,10 @@ import com.krakozaybr.todolist.domain.task.Task
 import com.krakozaybr.todolist.domain.task.TaskRepository
 import java.time.LocalDateTime
 import java.util.Date
+import javax.inject.Inject
 import kotlin.random.Random
 
-class TestTaskRepository : TaskRepository {
+class TestTaskRepository @Inject constructor() : TaskRepository {
 
     private val tasksLiveData = MutableLiveData<List<Task>>()
 
