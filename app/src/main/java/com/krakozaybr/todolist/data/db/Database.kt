@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.krakozaybr.todolist.data.db.converters.LocalDateTimeConverter
 import com.krakozaybr.todolist.data.db.dao.TaskDao
 import com.krakozaybr.todolist.data.db.models.TaskDbModel
 
@@ -11,6 +13,7 @@ import com.krakozaybr.todolist.data.db.models.TaskDbModel
 @Database(
     entities = [TaskDbModel::class], version = 1
 )
+@TypeConverters(LocalDateTimeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao
