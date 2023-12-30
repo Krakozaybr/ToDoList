@@ -2,10 +2,13 @@ package com.krakozaybr.todolist.domain.task.use_cases
 
 import com.krakozaybr.todolist.domain.task.Task
 import com.krakozaybr.todolist.domain.task.TaskRepository
+import javax.inject.Inject
 
-class AddEditTaskUseCase(private val repository: TaskRepository) {
+class AddEditTaskUseCase @Inject constructor(
+    private val repository: TaskRepository
+) {
 
-    operator fun invoke(task: Task) {
+    suspend operator fun invoke(task: Task) {
         repository.addTask(task)
     }
 

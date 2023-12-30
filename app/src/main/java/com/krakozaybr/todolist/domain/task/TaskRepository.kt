@@ -5,13 +5,11 @@ import java.util.Date
 
 interface TaskRepository {
 
-    fun addTask(task: Task)
+    suspend fun addTask(task: Task)
 
-    fun getTasksOfPeriod(
-        start: Date,
-        end: Date
-    ): LiveData<List<Task>>
+    fun getTasks(): LiveData<List<Task>>
 
-    fun deleteTask(task: Task)
+    suspend fun deleteTask(task: Task)
 
+    suspend fun getTask(id: Int): Task
 }
