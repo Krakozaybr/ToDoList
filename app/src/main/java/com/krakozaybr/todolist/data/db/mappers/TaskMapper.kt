@@ -12,6 +12,7 @@ class TaskMapper @Inject constructor() {
         dateFinish = task.dateFinish,
         name = task.name,
         description = task.description,
+        done = task.done
     )
 
     fun mapDbModelToTask(model: TaskDbModel) = Task(
@@ -20,6 +21,7 @@ class TaskMapper @Inject constructor() {
         dateFinish = model.dateFinish,
         name = model.name,
         description = model.description,
+        done = model.done
     )
 
     fun mapDbModelListToTaskList(models: List<TaskDbModel>) = models.map {

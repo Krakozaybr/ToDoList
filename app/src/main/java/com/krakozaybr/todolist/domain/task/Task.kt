@@ -7,6 +7,7 @@ data class Task(
     val dateFinish: LocalDateTime,
     val name: String,
     val description: String,
+    val done: Boolean,
     var id: Int = UNDEFINED_ID,
 ) {
     companion object {

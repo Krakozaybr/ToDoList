@@ -12,4 +12,5 @@ data class TaskDbModel(
     val dateFinish: LocalDateTime,
     val name: String,
     val description: String,
+    val done: Boolean
 )
