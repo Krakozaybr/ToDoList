@@ -1,50 +1,67 @@
 package com.krakozaybr.todolist.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.krakozaybr.todolist.domain.task.Task
 import com.krakozaybr.todolist.domain.task.TaskRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
+import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.Date
 import javax.inject.Inject
 import kotlin.random.Random
 
 class TestTaskRepository @Inject constructor() : TaskRepository {
 
-    private val tasksLiveData = MutableLiveData<List<Task>>()
+    private val tasksFlow = MutableSharedFlow<List<Task>>(replay = 1)
 
-    private var id = 1
+    private var _id = 1
 
     private val tasks = MutableList(INITIAL_SIZE) {
 
-        val dateStart = LocalDateTime.from(Date().toInstant()).plusHours(it.toLong())
-        val dateEnd = dateStart.plusHours(Random.nextInt(1, 3).toLong())
+        val dateStart = LocalDateTime.now().minusDays(1).plusHours(it.toLong() / 3 - 1L)
+        val dateEnd = dateStart.minusDays(1).plusHours(it.toLong() / 3)
 
         Task(
             dateStart = dateStart,
             dateFinish = dateEnd,
             name = "Task $it",
             description = "Description of task $it",
-            id = id++,
+            id = _id++,
+            done = Random.nextBoolean()
         )
     }
 
     init {
-        tasksLiveData.value = tasks
+        tasksFlow.tryEmit(tasks)
     }
 
     override suspend fun addTask(task: Task) {
-        tasks.add(task.copy(id = id++))
-        tasksLiveData.value = tasks
+        tasks.removeIf { it.id == task.id }
+        if (task.id == Task.UNDEFINED_ID){
+            tasks.add(task.copy(id = _id++))
+        } else {
+            tasks.add(task)
+        }
+        tasksFlow.emit(tasks)
     }
 
-    override fun getTasks(): LiveData<List<Task>> {
-        return tasksLiveData
+    override fun getTasksForDate(date: LocalDate): Flow<List<Task>> {
+        return flow {
+            emit(tasks.forDate(date))
+
+            tasksFlow.collect {
+                emit(it.forDate(date))
+            }
+        }
+    }
+
+    private fun List<Task>.forDate(date: LocalDate): List<Task> {
+        return filter { task -> task.dateStart.toLocalDate() == date }.sortedBy { it.dateStart }
     }
 
     override suspend fun deleteTask(task: Task) {
         tasks.removeIf { it.id == task.id }
-        tasksLiveData.value = tasks
+        tasksFlow.emit(tasks)
     }
 
     override suspend fun getTask(id: Int): Task {

@@ -1,11 +1,12 @@
 package com.krakozaybr.todolist.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.krakozaybr.todolist.data.db.dao.TaskDao
 import com.krakozaybr.todolist.data.db.mappers.TaskMapper
 import com.krakozaybr.todolist.domain.task.Task
 import com.krakozaybr.todolist.domain.task.TaskRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import java.time.LocalDate
 import javax.inject.Inject
 
 class DatabaseTaskRepository @Inject constructor(
@@ -21,7 +22,10 @@ class DatabaseTaskRepository @Inject constructor(
         return mapper.mapDbModelToTask(taskDao.getTask(id))
     }
 
-    override fun getTasks(): LiveData<List<Task>> = taskDao.getTasks().map {
+    override fun getTasksForDate(date: LocalDate): Flow<List<Task>> = taskDao.getTasksInPeriod(
+        periodStart = date.atStartOfDay(),
+        periodEnd = date.plusDays(1L).atStartOfDay()
+    ).map {
         mapper.mapDbModelListToTaskList(it)
     }
 
