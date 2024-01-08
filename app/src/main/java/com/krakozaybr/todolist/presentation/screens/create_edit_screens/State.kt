@@ -1,6 +1,7 @@
-package com.krakozaybr.todolist.presentation.screens.add_edit_screen
+package com.krakozaybr.todolist.presentation.screens.create_edit_screens
 
-import com.krakozaybr.todolist.presentation.screens.add_edit_screen.data.TaskInfo
+import com.krakozaybr.todolist.presentation.wrappers.task_info.TaskInfo
+import com.krakozaybr.todolist.presentation.wrappers.task_info.TaskIssues
 
 sealed class State {
 
@@ -10,9 +11,7 @@ sealed class State {
 
     data class InputError(
         val task: TaskInfo,
-        val timeError: Boolean,
-        val dateError: Boolean,
-        val nameError: Boolean
+        val taskIssues: TaskIssues
     ) : State()
 
     data class SavedSuccessfully(val task: TaskInfo) : State()

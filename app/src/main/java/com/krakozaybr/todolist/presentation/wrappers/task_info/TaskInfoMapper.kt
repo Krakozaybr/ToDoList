@@ -1,4 +1,4 @@
-package com.krakozaybr.todolist.presentation.screens.add_edit_screen.data
+package com.krakozaybr.todolist.presentation.wrappers.task_info
 
 import com.krakozaybr.todolist.domain.task.Task
 import javax.inject.Inject

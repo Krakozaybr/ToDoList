@@ -8,4 +8,6 @@
     <string name="click_for_detail">Click on task for details</string>
     <string name="loading">Loading</string>
     <string name="list_is_empty">List is empty</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
 </resources>

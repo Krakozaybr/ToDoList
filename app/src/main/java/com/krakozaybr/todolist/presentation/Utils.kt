@@ -63,6 +63,13 @@ fun LocalDate.toUtcEpochMillis(): Long {
     return atStartOfDay(zoneId).toEpochSecond() * 1000L
 }
 
+fun Long.utcToLocalDate(): LocalDate {
+    return Instant
+        .ofEpochMilli(this)
+        .atZone(ZoneId.of("UTC"))
+        .toLocalDate()
+}
+
 fun LocalDate.toEpochMillis(): Long {
     val zoneId = ZoneId.systemDefault()
     return atStartOfDay(zoneId).toEpochSecond() * 1000L

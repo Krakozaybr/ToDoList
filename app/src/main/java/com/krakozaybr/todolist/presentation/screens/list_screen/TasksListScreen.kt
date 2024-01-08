@@ -36,7 +36,7 @@ import com.krakozaybr.todolist.presentation.components.ContentWithBottomSheetSta
 import com.krakozaybr.todolist.presentation.components.EmptyTasksList
 import com.krakozaybr.todolist.presentation.components.Loading
 import com.krakozaybr.todolist.presentation.components.TasksCalendar
-import com.krakozaybr.todolist.presentation.components.TasksDatePicker
+import com.krakozaybr.todolist.presentation.components.FullDatePicker
 import com.krakozaybr.todolist.presentation.components.TasksList
 import com.krakozaybr.todolist.presentation.components.rememberContentWithBottomSheetState
 import com.krakozaybr.todolist.presentation.components.rememberTasksCalendarState
@@ -91,7 +91,7 @@ private fun TasksListDatePicker(
         selectedDate?.let { updateDate(it) }
     }
 
-    TasksDatePicker(
+    FullDatePicker(
         modifier = Modifier
             .padding(top = 12.dp)
             .animateContentSize(),

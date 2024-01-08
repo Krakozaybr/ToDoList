@@ -60,7 +60,7 @@ fun rememberTasksDatePickerState(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TasksDatePicker(
+fun FullDatePicker(
     modifier: Modifier = Modifier,
     state: TasksDatePickerState = rememberTasksDatePickerState()
 ) {
@@ -79,7 +79,54 @@ fun TasksDatePickerPreview() {
     AppTheme {
         Surface {
             Box(modifier = Modifier.fillMaxSize()) {
-                TasksDatePicker(modifier = Modifier.align(Alignment.Center))
+                FullDatePicker(modifier = Modifier.align(Alignment.Center))
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun rememberTaskDatePickerState(
+    initialDate: LocalDate = LocalDate.now(),
+    initialSelectedMonth: YearMonth = YearMonth.now(),
+    yearRange: IntRange = DatePickerDefaults.YearRange,
+    initialDisplayMode: DisplayMode = DisplayMode.Input
+): TasksDatePickerState {
+    return TasksDatePickerState(
+        datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = initialDate.toUtcEpochMillis(),
+            initialDisplayedMonthMillis = initialSelectedMonth.atStartOfMonth().toUtcEpochMillis(),
+            yearRange = yearRange,
+            initialDisplayMode = initialDisplayMode,
+        )
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickerField(
+    modifier: Modifier = Modifier,
+    state: TasksDatePickerState = rememberTaskDatePickerState()
+) {
+    Column {
+        DatePicker(
+            modifier = modifier,
+            state = state.datePickerState,
+            title = null,
+            headline = null,
+            showModeToggle = false,
+        )
+    }
+}
+
+@Preview
+@Composable
+fun TaskDatePickerPreview() {
+    AppTheme {
+        Surface {
+            Column(modifier = Modifier.fillMaxSize()) {
+                DatePickerField()
             }
         }
     }
