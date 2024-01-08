@@ -8,7 +8,6 @@ import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -70,27 +69,6 @@ fun TasksDatePicker(
             modifier = modifier,
             state = state.datePickerState,
             title = null,
-            colors = DatePickerDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                //titleContentColor =,
-                //headlineContentColor =,
-                //weekdayContentColor =,
-                //subheadContentColor = ,
-                //yearContentColor =,
-                //currentYearContentColor =,
-                //selectedYearContentColor =,
-                //selectedYearContainerColor =,
-                //dayContentColor = MaterialTheme.colorScheme,
-                //disabledDayContentColor =,
-                //selectedDayContentColor =,
-                //disabledSelectedDayContentColor =,
-                //selectedDayContainerColor =,
-                //disabledSelectedDayContainerColor =,
-                //todayContentColor =,
-                //todayDateBorderColor =,
-                //dayInSelectionRangeContentColor =,
-                //dayInSelectionRangeContainerColor =,
-            )
         )
     }
 }

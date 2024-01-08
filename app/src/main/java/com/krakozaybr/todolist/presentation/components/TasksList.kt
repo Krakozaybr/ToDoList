@@ -66,6 +66,7 @@ fun TasksList(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        // "Click on task for detail" text
         item {
             Box(
                 modifier = Modifier
@@ -92,6 +93,7 @@ fun TasksList(
 
         for ((hour, list) in tasks.groupByHour()) {
 
+            // Key must be string; Int can cause crashes (maybe because TaskItem keys are Int too)
             stickyHeader(key = hour.toString()) {
                 StickyHourHeader(
                     hour,
