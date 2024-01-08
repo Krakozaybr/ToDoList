@@ -22,6 +22,9 @@ android {
             useSupportLibrary = true
         }
     }
+    defaultConfig {
+        multiDexEnabled = true
+    }
 
     buildTypes {
         release {

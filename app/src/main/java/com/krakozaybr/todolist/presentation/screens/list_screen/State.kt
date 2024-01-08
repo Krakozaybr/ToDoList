@@ -8,4 +8,6 @@ sealed class State(open val date: LocalDate) {
     data class Loading(override val date: LocalDate) : State(date)
     data class TaskList(val tasks: List<Task>, override val date: LocalDate) : State(date)
 
+    data class EmptyTaskList(override val date: LocalDate) : State(date)
+
 }

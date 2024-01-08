@@ -385,3 +385,25 @@ fun TaskNotDoneItemPreview() {
     }
 }
 
+@Composable
+fun EmptyTasksList(
+    modifier: Modifier = Modifier
+){
+    Box (modifier) {
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = stringResource(id = R.string.list_is_empty),
+            style = MaterialTheme.typography.headlineMedium
+        )
+    }
+}
+
+@Preview
+@Composable
+fun EmptyTasksListPreview() {
+    AppTheme {
+        Surface {
+            EmptyTasksList(modifier = Modifier.fillMaxSize())
+        }
+    }
+}

@@ -1,9 +1,15 @@
 package com.krakozaybr.todolist.presentation.screens.list_screen
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,23 +24,25 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.krakozaybr.todolist.domain.task.Task
+import com.krakozaybr.todolist.presentation.components.ContentWithBottomSheet
+import com.krakozaybr.todolist.presentation.components.ContentWithBottomSheetState
+import com.krakozaybr.todolist.presentation.components.EmptyTasksList
 import com.krakozaybr.todolist.presentation.components.Loading
 import com.krakozaybr.todolist.presentation.components.TasksCalendar
+import com.krakozaybr.todolist.presentation.components.TasksDatePicker
 import com.krakozaybr.todolist.presentation.components.TasksList
+import com.krakozaybr.todolist.presentation.components.rememberContentWithBottomSheetState
 import com.krakozaybr.todolist.presentation.components.rememberTasksCalendarState
+import com.krakozaybr.todolist.presentation.components.rememberTasksDatePickerState
 import com.krakozaybr.todolist.presentation.theme.AppTheme
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,69 +51,156 @@ fun TasksListScreen(
 ) {
     val state by tasksListVM.state.collectAsState()
 
-    val localDensity = LocalDensity.current
-    val localConfiguration = LocalConfiguration.current
+    val contentWithBottomSheetState = rememberContentWithBottomSheetState()
 
-    val contentHeight = remember { mutableStateOf(localConfiguration.screenHeightDp.dp) }
-    val sheetHeight by remember {
-        derivedStateOf { localConfiguration.screenHeightDp.dp - contentHeight.value }
+    ContentWithBottomSheet(
+        content = {
+            TasksListScreenCalendar(
+                state = state,
+                updateDate = tasksListVM::updateDate
+            )
+        },
+        sheetContent = {
+            TasksListScreenBottomSheet(
+                contentWithBottomSheetState = contentWithBottomSheetState,
+                state = state,
+                showItemDescription = {
+
+                },
+                changeDoneState = tasksListVM::changeDoneState,
+                deleteItem = tasksListVM::deleteTask,
+            )
+        },
+        modifier = Modifier,
+        state = contentWithBottomSheetState,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TasksListDatePicker(
+    state: State,
+    updateDate: (LocalDate) -> Unit,
+) {
+    val datePickerState = rememberTasksDatePickerState(
+        initialDate = state.date
+    )
+    val selectedDate = datePickerState.selectedDate
+
+    if (selectedDate != state.date) {
+        selectedDate?.let { updateDate(it) }
     }
-    val sheetPeekHeight by animateDpAsState(
-        targetValue = sheetHeight.value.coerceAtLeast(200f).dp,
-        label = "",
-        animationSpec = tween(3000)
+
+    TasksDatePicker(
+        modifier = Modifier
+            .padding(top = 12.dp)
+            .animateContentSize(),
+        state = datePickerState
     )
 
-    BottomSheetScaffold(
-        modifier = Modifier
-            .onGloballyPositioned {
-                contentHeight.value = with(localDensity) { it.size.height.toDp() }
-            },
-        content = {
-            val calendarState = rememberTasksCalendarState(
-                initialDate = state.date
-            )
+}
 
-            if (calendarState.selectedDay != state.date) {
-                tasksListVM.updateDate(calendarState.selectedDay)
-            }
-            Box(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.secondaryContainer)
-                    .padding(PaddingValues(top = 8.dp, bottom = 16.dp, start = 8.dp, end = 8.dp))
-            ) {
-                TasksCalendar(state = calendarState)
+@Composable
+private fun TasksListScreenCalendar(
+    state: State,
+    updateDate: (LocalDate) -> Unit,
+) {
+    val calendarState = rememberTasksCalendarState(
+        initialDate = state.date
+    )
+
+    if (calendarState.selectedDay != state.date) {
+        updateDate(calendarState.selectedDay)
+    }
+
+    val padding = PaddingValues(
+        top = 8.dp,
+        bottom = 16.dp,
+        start = 8.dp,
+        end = 8.dp
+    )
+
+    Column {
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.secondaryContainer)
+                .padding(
+                    paddingValues = padding
+                )
+                .animateContentSize()
+        ) {
+            TasksCalendar(state = calendarState)
+        }
+
+    }
+}
+
+@Composable
+private fun TasksListScreenBottomSheet(
+    contentWithBottomSheetState: ContentWithBottomSheetState,
+    state: State,
+    showItemDescription: (Task) -> Unit,
+    changeDoneState: (Task) -> Unit,
+    deleteItem: (Task) -> Unit,
+) {
+    val sheetPeekHeight = contentWithBottomSheetState.sheetPeekHeight
+
+    if (sheetPeekHeight == 0.dp) {
+        return
+    }
+
+    AnimatedContent(
+        targetState = state,
+        transitionSpec = {
+            when (targetState) {
+                is State.Loading -> {
+                    fadeIn() togetherWith
+                            slideOutHorizontally { width -> -width }
+                }
+
+                is State.TaskList -> {
+                    slideInVertically { height -> height } + fadeIn() togetherWith
+                            fadeOut()
+                }
+
+                is State.EmptyTaskList -> {
+                    fadeIn() togetherWith fadeOut()
+                }
             }
         },
-        sheetShape = RectangleShape,
-        sheetDragHandle = null,
-        sheetPeekHeight = sheetPeekHeight,
-        sheetContent = {
-            when (val currentState = state) {
-                is State.Loading -> Loading(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
-                )
+        contentKey = {
+            it.date.toString() + it.javaClass
+        },
+        label = ""
+    ) {
+        when (it) {
+            is State.Loading -> Loading(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(sheetPeekHeight)
+            )
 
-                is State.TaskList -> TasksList(
-                    tasks = currentState.tasks,
-                    showItemDescription = {
-
-                    },
-                    changeDoneState = {
-                        tasksListVM.changeDoneState(it)
-                    },
-                    deleteItem = {
-                        tasksListVM.deleteTask(it)
-                    },
+            is State.TaskList -> {
+                TasksList(
+                    tasks = it.tasks,
+                    showItemDescription = showItemDescription,
+                    changeDoneState = changeDoneState,
+                    deleteItem = deleteItem,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(12.dp)
                 )
             }
+
+            is State.EmptyTaskList -> {
+                EmptyTasksList(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(sheetPeekHeight)
+                )
+            }
         }
-    )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

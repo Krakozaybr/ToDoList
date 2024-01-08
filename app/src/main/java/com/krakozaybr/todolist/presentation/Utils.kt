@@ -3,9 +3,11 @@ package com.krakozaybr.todolist.presentation
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.atStartOfMonth
 import com.krakozaybr.todolist.domain.task.Task
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import java.util.PriorityQueue
 import java.util.SortedMap
 
 
@@ -53,4 +55,21 @@ fun Task.timePeriodString(): String {
         start,
         finish
     )
+}
+
+fun LocalDate.toUtcEpochMillis(): Long {
+    val zoneId = ZoneId.of("UTC")
+    return atStartOfDay(zoneId).toEpochSecond() * 1000L
+}
+
+fun LocalDate.toEpochMillis(): Long {
+    val zoneId = ZoneId.systemDefault()
+    return atStartOfDay(zoneId).toEpochSecond() * 1000L
+}
+
+fun Long.toLocalDate(): LocalDate {
+    return Instant
+        .ofEpochMilli(this)
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
 }

@@ -1,6 +1,5 @@
 package com.krakozaybr.todolist.presentation.screens.list_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.krakozaybr.todolist.domain.task.Task
@@ -10,7 +9,6 @@ import com.krakozaybr.todolist.domain.task.use_cases.GetTaskListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -43,9 +41,11 @@ class TasksListViewModel @Inject constructor(
         taskListObserverJob = viewModelScope.launch(Dispatchers.IO) {
             getTaskListUseCase(date)
                 .onEach {
-                    delay(1000)
-                    _state.value = State.TaskList(it, date)
-                    Log.d(TAG, "updateDate: ${it.isEmpty()}")
+                    _state.value = if (it.isNotEmpty()) {
+                        State.TaskList(it, date)
+                    } else {
+                        State.EmptyTaskList(date)
+                    }
                 }.collect()
         }
     }

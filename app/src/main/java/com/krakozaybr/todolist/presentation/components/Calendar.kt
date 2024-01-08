@@ -41,6 +41,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.ScrollAxisRange
+import androidx.compose.ui.semantics.horizontalScrollAxisRange
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -51,6 +54,7 @@ import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
+import com.kizitonwose.calendar.core.OutDateStyle
 import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
 import com.kizitonwose.calendar.core.yearMonth
@@ -73,11 +77,12 @@ class TasksCalendarState(
 fun rememberTasksCalendarState(
     initialDate: LocalDate = LocalDate.now(),
     initialMonth: YearMonth = initialDate.yearMonth,
-    extraMonthBuffer: Long = 1200L,
+    extraMonthBuffer: Long = 120L,
     calendarState: CalendarState = rememberCalendarState(
         startMonth = initialMonth.minusMonths(extraMonthBuffer),
         firstVisibleMonth = initialMonth,
-        endMonth = initialMonth.plusMonths(extraMonthBuffer)
+        endMonth = initialMonth.plusMonths(extraMonthBuffer),
+        outDateStyle = OutDateStyle.EndOfGrid
     )
 ): TasksCalendarState {
     return remember {
@@ -89,9 +94,11 @@ fun rememberTasksCalendarState(
 }
 
 /*
-    The library that is used here for calendar doesn`t support specifying arrangement of days,
-    so default padding values here are closer to "Magic constants". I see only one solution - to fork
-    the library, but it doesn`t worth the trouble.
+    * The library that is used here for calendar doesn`t support specifying arrangement of days,
+      so default padding values here are closer to "Magic constants". I see only one solution - to fork
+      the library, but it doesn`t worth the trouble.
+
+    * Also there are some performance issues
 */
 @Composable
 fun TasksCalendar(
@@ -102,12 +109,14 @@ fun TasksCalendar(
         modifier = modifier
     ) {
         HorizontalCalendar(
-            modifier = Modifier,
+            modifier = Modifier.semantics {
+                horizontalScrollAxisRange = ScrollAxisRange(value = { 0f }, maxValue = { 0f })
+            },
             state = state.calendarState,
             userScrollEnabled = true,
             calendarScrollPaged = true,
             dayContent = { TasksCalendarDay(it, state) },
-            monthHeader = { TasksCalendarHeader(it) }
+            monthHeader = { TasksCalendarHeader(it) },
         )
 
         val coroutineScope = rememberCoroutineScope()
