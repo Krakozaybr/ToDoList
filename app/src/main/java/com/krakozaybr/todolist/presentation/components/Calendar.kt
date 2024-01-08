@@ -199,12 +199,13 @@ private fun BoxScope.TasksCalendarDay(
         label = "Content color animation for Day in calendar"
     )
 
-    Card(
+    Box(
         modifier = Modifier
             .align(Alignment.Center)
             .padding(elementPadding)
             .size(elementSize)
             .aspectRatio(1f) // make days square
+            .background(color = containerColor, shape = shape)
             .alpha(if (day.position == DayPosition.MonthDate) 1f else outDateAlpha)
             .clickable(
                 indication = null,
@@ -217,24 +218,14 @@ private fun BoxScope.TasksCalendarDay(
                 color = borderColor,
                 shape = shape
             ),
-        shape = shape,
-        colors = CardDefaults.cardColors(
-            containerColor = containerColor,
-            contentColor = contentColor
-        )
     ) {
-        Box(
+        Text(
             modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Text(
-                modifier = Modifier
-                    .align(Alignment.Center),
-                text = day.date.dayOfMonth.toString(),
-            )
-        }
+                .align(Alignment.Center),
+            text = day.date.dayOfMonth.toString(),
+            color = contentColor
+        )
     }
-
 }
 
 @Composable
