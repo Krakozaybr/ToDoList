@@ -1,5 +1,6 @@
 package com.krakozaybr.todolist.presentation
 
+import android.net.Uri
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.atStartOfMonth
 import com.krakozaybr.todolist.domain.task.Task
@@ -72,4 +73,8 @@ fun Long.toLocalDate(): LocalDate {
         .ofEpochMilli(this)
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
+}
+
+fun String.encode(): String {
+    return Uri.encode(this)
 }

@@ -98,6 +98,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // Hilt and compose navigation
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
     // Compose calendar
     implementation("com.kizitonwose.calendar:compose:2.4.1")
 

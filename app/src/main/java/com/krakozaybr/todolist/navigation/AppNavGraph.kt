@@ -6,15 +6,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.krakozaybr.todolist.domain.task.Task
 
-
-typealias TaskId = Int
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
     taskListScreenContent: @Composable () -> Unit,
-    taskInfoScreenContent: @Composable (TaskId) -> Unit
+    taskInfoScreenContent: @Composable () -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -28,9 +27,11 @@ fun AppNavGraph(
                 type = NavType.IntType
             }
         )) {
-            val taskId: Int = it.arguments?.getInt(Screen.TASK_ID_KEY)
-                ?: throw RuntimeException("Arguments are null")
-            taskInfoScreenContent(taskId)
+            taskInfoScreenContent()
+        }
+        composable(route = Screen.NewTaskScreen.route) {
+            it.arguments?.putInt(Screen.TASK_ID_KEY, Task.UNDEFINED_ID)
+            taskInfoScreenContent()
         }
     }
 }
