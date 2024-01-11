@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.krakozaybr.todolist.domain.task.Task
+import java.time.LocalDate
 
 class NavigationState(
     val navHostController: NavHostController
@@ -15,13 +15,18 @@ class NavigationState(
             popUpTo(navHostController.graph.startDestinationId) {
                 saveState = true
             }
+
             launchSingleTop = true
             restoreState = true
         }
     }
 
-    fun navigateToTaskInfo(task: Task) {
-        navHostController.navigate(Screen.TaskInfoScreen.getRouteWithArgs(task))
+    fun navigateToTaskInfo(taskId: Int) {
+        navigateTo(Screen.TaskInfoScreen.getRouteWithArgs(taskId))
+    }
+
+    fun navigateToNewTaskScreen(date: LocalDate) {
+        navigateTo(Screen.NewTaskScreen.getRouteWithArgs(date))
     }
 
 }

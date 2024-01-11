@@ -10,4 +10,21 @@
     <string name="list_is_empty">List is empty</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
+    <string name="error_name_empty">Name cannot be empty</string>
+    <string name="error_name_blank">Name cannot be blank</string>
+    <string name="error_time_order">Start time cannot be after or equal to finish time</string>
+    <string name="error_saving">Error while saving task</string>
+    <string name="time_range">%s - %s</string>
+    <string name="task_date">Date of task</string>
+    <string name="task_start_time">Task start time</string>
+    <string name="task_finish_time">Task finish time</string>
+    <string name="task_done">Task is done</string>
+    <string name="saving">Saving</string>
+    <string name="saved_successfully">Saved successfully</string>
+    <string name="create_task">Create task</string>
+    <string name="go_back_button">Go back button</string>
+    <string name="edit_task">Edit task</string>
+    <string name="add_task_button">Add task button</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

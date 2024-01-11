@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.krakozaybr.todolist.di.qualifiers.TaskId
 import com.krakozaybr.todolist.di.qualifiers.TaskInitialDate
 import com.krakozaybr.todolist.navigation.Screen
+import com.krakozaybr.todolist.presentation.utcToLocalDate
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +30,7 @@ class NavigationParameterModule {
     @TaskInitialDate
     @ViewModelScoped
     fun provideTaskInitialDate(savedStateHandle: SavedStateHandle): LocalDate =
-        savedStateHandle.get<LocalDate>(Screen.TASK_INITIAL_DATE_KEY)
+        savedStateHandle.get<Long>(Screen.TASK_INITIAL_DATE_KEY)?.utcToLocalDate()
             ?: throw IllegalStateException("Could not get the 'taskInitialDate' parameter")
 
 }

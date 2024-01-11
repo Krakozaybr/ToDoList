@@ -29,14 +29,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.krakozaybr.todolist.domain.task.Task
 import com.krakozaybr.todolist.presentation.components.ContentWithBottomSheet
 import com.krakozaybr.todolist.presentation.components.ContentWithBottomSheetState
 import com.krakozaybr.todolist.presentation.components.EmptyTasksList
+import com.krakozaybr.todolist.presentation.components.FullDatePicker
 import com.krakozaybr.todolist.presentation.components.Loading
 import com.krakozaybr.todolist.presentation.components.TasksCalendar
-import com.krakozaybr.todolist.presentation.components.FullDatePicker
 import com.krakozaybr.todolist.presentation.components.TasksList
 import com.krakozaybr.todolist.presentation.components.rememberContentWithBottomSheetState
 import com.krakozaybr.todolist.presentation.components.rememberTasksCalendarState
@@ -47,13 +47,18 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TasksListScreen(
-    tasksListVM: TasksListViewModel = viewModel()
+    tasksListVM: TasksListViewModel = hiltViewModel(),
+    showTaskInfo: (Task) -> Unit,
+    showTaskCreate: (LocalDate) -> Unit,
 ) {
     val state by tasksListVM.state.collectAsState()
 
     val contentWithBottomSheetState = rememberContentWithBottomSheetState()
 
     ContentWithBottomSheet(
+//        snackbarHost = {
+//
+//        },
         content = {
             TasksListScreenCalendar(
                 state = state,
@@ -65,10 +70,13 @@ fun TasksListScreen(
                 contentWithBottomSheetState = contentWithBottomSheetState,
                 state = state,
                 showItemDescription = {
-
+                    showTaskInfo(it)
                 },
                 changeDoneState = tasksListVM::changeDoneState,
                 deleteItem = tasksListVM::deleteTask,
+                addTask = {
+                    showTaskCreate(state.date)
+                }
             )
         },
         modifier = Modifier,
@@ -142,6 +150,7 @@ private fun TasksListScreenBottomSheet(
     showItemDescription: (Task) -> Unit,
     changeDoneState: (Task) -> Unit,
     deleteItem: (Task) -> Unit,
+    addTask: () -> Unit,
 ) {
     val sheetPeekHeight = contentWithBottomSheetState.sheetPeekHeight
 
@@ -186,6 +195,7 @@ private fun TasksListScreenBottomSheet(
                     showItemDescription = showItemDescription,
                     changeDoneState = changeDoneState,
                     deleteItem = deleteItem,
+                    addTask = addTask,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(12.dp)

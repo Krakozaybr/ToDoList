@@ -8,19 +8,28 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DismissDirection
@@ -38,6 +47,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,35 +70,31 @@ fun TasksList(
     showItemDescription: (Task) -> Unit,
     changeDoneState: (Task) -> Unit,
     deleteItem: (Task) -> Unit,
-    modifier: Modifier = Modifier
+    addTask: () -> Unit,
+    modifier: Modifier = Modifier,
+    listState: LazyListState = rememberLazyListState(),
 ) {
     LazyColumn(
         modifier = modifier,
+        state = listState,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+
+        item {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                AddTaskIconButton(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    onClick = addTask
+                )
+            }
+        }
+
         // "Click on task for detail" text
         item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(),
-            ) {
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.Center),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.click_for_detail),
-                        style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = stringResource(id = R.string.click_for_detail)
-                    )
-                }
-            }
+            HelpText(
+                text = stringResource(id = R.string.click_for_detail),
+                imageVector = Icons.Outlined.Info
+            )
         }
 
         for ((hour, list) in tasks.groupByHour()) {
@@ -122,6 +128,56 @@ fun TasksList(
         }
     }
 
+}
+
+@Composable
+private fun AddTaskIconButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Button(
+        modifier = modifier
+            .width(IntrinsicSize.Min)
+            .aspectRatio(1f),
+        onClick = onClick,
+        shape = CircleShape,
+        contentPadding = PaddingValues(4.dp)
+    ) {
+        Icon(
+            modifier = Modifier.size(30.dp),
+            imageVector = Icons.Default.Add,
+            contentDescription = stringResource(id = R.string.add_task_button)
+        )
+    }
+}
+
+
+@Composable
+private fun HelpText(
+    text: String,
+    imageVector: ImageVector
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth(),
+    ) {
+        Row(
+            modifier = Modifier
+                .align(Alignment.Center),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Icon(
+                imageVector = imageVector,
+                contentDescription = stringResource(id = R.string.click_for_detail)
+            )
+        }
+    }
 }
 
 @Preview
@@ -165,7 +221,8 @@ fun TaskItemsPreview() {
                     tasks.value = tasksArray.toList()
                 },
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                addTask = {}
             )
         }
 
@@ -255,17 +312,17 @@ fun TaskItemBody(
 ) {
     val elevation by animateDpAsState(
         targetValue = if (task.done) {
-            4.dp
-        } else {
             2.dp
+        } else {
+            4.dp
         }, label = "Elevation animation"
     )
 
     val alpha by animateFloatAsState(
         targetValue = if (task.done) {
-            1f
-        } else {
             0.5f
+        } else {
+            1f
         },
         label = "Task alpha animation"
     )
@@ -390,8 +447,8 @@ fun TaskNotDoneItemPreview() {
 @Composable
 fun EmptyTasksList(
     modifier: Modifier = Modifier
-){
-    Box (modifier) {
+) {
+    Box(modifier) {
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = stringResource(id = R.string.list_is_empty),

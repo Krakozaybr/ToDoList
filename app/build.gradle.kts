@@ -42,12 +42,17 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+        freeCompilerArgs += listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=" +
+                    "${project.rootDir}/compose_compiler_config.conf"
+        )
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = "1.5.7"
     }
     packaging {
         resources {
@@ -103,6 +108,12 @@ dependencies {
 
     // Compose calendar
     implementation("com.kizitonwose.calendar:compose:2.4.1")
+
+    // Dialogs
+    val dialogs_version = "1.2.1"
+    implementation("com.maxkeppeler.sheets-compose-dialogs:core:$dialogs_version")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:clock:$dialogs_version")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:$dialogs_version")
 
     val nav_version = "2.7.6"
     implementation("androidx.navigation:navigation-compose:$nav_version")

@@ -1,8 +1,9 @@
 package com.krakozaybr.todolist.presentation.components
 
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -172,30 +173,47 @@ private fun BoxScope.TasksCalendarDay(
     val dampingRatio = Spring.DampingRatioNoBouncy
     val stiffness = Spring.StiffnessLow
 
-    val borderColor by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.primary else Color.Transparent,
-        animationSpec = spring(
-            dampingRatio = dampingRatio,
-            stiffness = stiffness
-        ),
+    val transition = updateTransition(targetState = selected, label = "Day animation transition")
+
+    val borderColor by transition.animateColor(
+        targetValueByState = {
+            if (it) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                Color.Transparent
+            }
+        },
+        transitionSpec = {
+            spring(dampingRatio, stiffness)
+        },
         label = "Border animation for Day in calendar"
     )
 
-    val containerColor by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.inversePrimary else MaterialTheme.colorScheme.secondary,
-        animationSpec = spring(
-            dampingRatio = dampingRatio,
-            stiffness = stiffness
-        ),
+    val containerColor by transition.animateColor(
+        targetValueByState = {
+            if (it) {
+                MaterialTheme.colorScheme.inversePrimary
+            } else {
+                MaterialTheme.colorScheme.secondary
+            }
+        },
+        transitionSpec = {
+            spring(dampingRatio, stiffness)
+        },
         label = "Container color animation for Day in calendar"
     )
 
-    val contentColor by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
-        animationSpec = spring(
-            dampingRatio = dampingRatio,
-            stiffness = stiffness
-        ),
+    val contentColor by transition.animateColor(
+        targetValueByState = {
+            if (it) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSecondary
+            }
+        },
+        transitionSpec = {
+            spring(dampingRatio, stiffness)
+        },
         label = "Content color animation for Day in calendar"
     )
 

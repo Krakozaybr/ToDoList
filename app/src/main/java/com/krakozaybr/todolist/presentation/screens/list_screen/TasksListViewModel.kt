@@ -3,7 +3,7 @@ package com.krakozaybr.todolist.presentation.screens.list_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.krakozaybr.todolist.domain.task.Task
-import com.krakozaybr.todolist.domain.task.use_cases.AddEditTaskUseCase
+import com.krakozaybr.todolist.domain.task.use_cases.EditTaskUseCase
 import com.krakozaybr.todolist.domain.task.use_cases.DeleteTaskUseCase
 import com.krakozaybr.todolist.domain.task.use_cases.GetTaskListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TasksListViewModel @Inject constructor(
-    private val addEditTaskUseCase: AddEditTaskUseCase,
+    private val editTaskUseCase: EditTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val getTaskListUseCase: GetTaskListUseCase
 ) : ViewModel() {
@@ -58,7 +58,7 @@ class TasksListViewModel @Inject constructor(
 
     fun changeDoneState(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
-            addEditTaskUseCase(task.copy(done = !task.done))
+            editTaskUseCase(task.copy(done = !task.done))
         }
     }
 

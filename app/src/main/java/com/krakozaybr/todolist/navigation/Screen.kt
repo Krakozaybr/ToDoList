@@ -1,6 +1,5 @@
 package com.krakozaybr.todolist.navigation
 
-import com.krakozaybr.todolist.domain.task.Task
 import com.krakozaybr.todolist.presentation.toUtcEpochMillis
 import java.time.LocalDate
 
@@ -11,8 +10,8 @@ sealed class Screen(val route: String) {
 
         private const val ROUTE_FOR_ARGS = "task_info"
 
-        fun getRouteWithArgs(task: Task): String {
-            return "$ROUTE_FOR_ARGS/${task.id}"
+        fun getRouteWithArgs(taskId: Int): String {
+            return "$ROUTE_FOR_ARGS/$taskId"
         }
 
     }
@@ -34,7 +33,7 @@ sealed class Screen(val route: String) {
 
         private const val ROUTE_TASK_LIST = "task_list"
         private const val ROUTE_TASK_INFO = "task_info/{$TASK_ID_KEY}"
-        private const val ROUTE_NEW_TASK = "task_new{$TASK_INITIAL_DATE_KEY}"
+        private const val ROUTE_NEW_TASK = "task_new/{$TASK_INITIAL_DATE_KEY}"
     }
 
 }

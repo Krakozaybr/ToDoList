@@ -14,12 +14,17 @@ class DatabaseTaskRepository @Inject constructor(
     private val mapper: TaskMapper
 ) : TaskRepository {
 
-    override suspend fun addTask(task: Task) {
+    override suspend fun updateTask(task: Task) {
         taskDao.insert(mapper.mapTaskToDbModel(task))
     }
 
     override suspend fun getTask(id: Int): Task {
         return mapper.mapDbModelToTask(taskDao.getTask(id))
+    }
+
+    override suspend fun insertTask(task: Task): Task {
+        val rowid = taskDao.insert(mapper.mapTaskToDbModel(task))
+        return mapper.mapDbModelToTask(taskDao.getTaskByRowid(rowid))
     }
 
     override fun getTasksForDate(date: LocalDate): Flow<List<Task>> = taskDao.getTasksInPeriod(

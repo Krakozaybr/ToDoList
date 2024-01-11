@@ -12,7 +12,10 @@ import java.time.LocalDateTime
 interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(task: TaskDbModel)
+    suspend fun insert(task: TaskDbModel): Long
+
+    @Query("select * from tasks where rowid = :rowid limit 1")
+    suspend fun getTaskByRowid(rowid: Long): TaskDbModel
 
     @Query("delete from tasks where id = :id")
     suspend fun delete(id: Int)

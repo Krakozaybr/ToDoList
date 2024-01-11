@@ -6,6 +6,7 @@ import com.kizitonwose.calendar.core.atStartOfMonth
 import com.krakozaybr.todolist.domain.task.Task
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -80,6 +81,16 @@ fun Long.toLocalDate(): LocalDate {
         .ofEpochMilli(this)
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
+}
+
+fun LocalTime.defaultFormat(): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+    return formatter.format(this)
+}
+
+fun LocalDate.defaultFormat(): String {
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+    return formatter.format(this)
 }
 
 fun String.encode(): String {

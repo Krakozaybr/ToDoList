@@ -35,14 +35,17 @@ class TestTaskRepository @Inject constructor() : TaskRepository {
         tasksFlow.tryEmit(tasks)
     }
 
-    override suspend fun addTask(task: Task) {
+    override suspend fun updateTask(task: Task) {
         tasks.removeIf { it.id == task.id }
-        if (task.id == Task.UNDEFINED_ID){
-            tasks.add(task.copy(id = _id++))
-        } else {
-            tasks.add(task)
-        }
+        tasks.add(task)
         tasksFlow.emit(tasks)
+    }
+
+    override suspend fun insertTask(task: Task): Task {
+        val newTask = task.copy(id = _id++)
+        tasks.add(newTask)
+        tasksFlow.emit(tasks)
+        return newTask
     }
 
     override fun getTasksForDate(date: LocalDate): Flow<List<Task>> {
