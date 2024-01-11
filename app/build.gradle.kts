@@ -103,8 +103,12 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    // Hilt and compose navigation
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    // Voyager navigation
+    val voyagerVersion = "1.1.0-alpha02"
+
+    implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
+    implementation("cafe.adriel.voyager:voyager-hilt:$voyagerVersion")
+    implementation("cafe.adriel.voyager:voyager-transitions:$voyagerVersion")
 
     // Compose calendar
     implementation("com.kizitonwose.calendar:compose:2.4.1")
@@ -115,8 +119,6 @@ dependencies {
     implementation("com.maxkeppeler.sheets-compose-dialogs:clock:$dialogs_version")
     implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:$dialogs_version")
 
-    val nav_version = "2.7.6"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
 }
 
 kapt {

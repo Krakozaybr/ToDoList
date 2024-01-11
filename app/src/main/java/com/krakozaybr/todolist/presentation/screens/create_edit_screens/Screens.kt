@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.krakozaybr.todolist.R
 import com.krakozaybr.todolist.presentation.components.DeleteButton
 import com.krakozaybr.todolist.presentation.components.DescriptionInput
@@ -272,7 +271,7 @@ private fun ScreenContent(
 
 @Composable
 fun CreateTaskScreen(
-    viewModel: CreateTaskViewModel = hiltViewModel(),
+    viewModel: CreateTaskViewModel,
     navigateToTask: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
@@ -304,7 +303,7 @@ fun CreateTaskScreen(
 
 @Composable
 fun EditTaskScreen(
-    viewModel: EditTaskViewModel = hiltViewModel(),
+    viewModel: EditTaskViewModel,
     onBackPressed: () -> Unit
 ) {
 

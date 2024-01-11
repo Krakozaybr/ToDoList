@@ -2,7 +2,6 @@ package com.krakozaybr.todolist.presentation.screens.create_edit_screens.view_mo
 
 import androidx.lifecycle.viewModelScope
 import com.krakozaybr.todolist.R
-import com.krakozaybr.todolist.di.qualifiers.TaskId
 import com.krakozaybr.todolist.domain.task.Task
 import com.krakozaybr.todolist.domain.task.use_cases.DeleteTaskUseCase
 import com.krakozaybr.todolist.domain.task.use_cases.EditTaskUseCase
@@ -13,20 +12,22 @@ import com.krakozaybr.todolist.presentation.screens.create_edit_screens.SavingSt
 import com.krakozaybr.todolist.presentation.screens.create_edit_screens.ScreenState
 import com.krakozaybr.todolist.presentation.validation.UiText
 import com.krakozaybr.todolist.presentation.validation.ValidationMapper
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class EditTaskViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = EditTaskViewModel.Factory::class)
+class EditTaskViewModel @AssistedInject constructor(
     validateNameUseCase: ValidateNameUseCase,
     validateTimeRangeUseCase: ValidateTimeRangeUseCase,
     validationMapper: ValidationMapper,
     private val editTaskUseCase: EditTaskUseCase,
     private val getTaskUseCase: GetTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
-    @TaskId
+    @Assisted
     private val taskId: Int
 ) : CreateEditTaskViewModel(
     validateNameUseCase = validateNameUseCase,
@@ -59,5 +60,10 @@ class EditTaskViewModel @Inject constructor(
         } catch (e: Exception) {
             updateSavingState(SavingState.Error(UiText.StringResource(R.string.error_saving)))
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(taskId: Int): EditTaskViewModel
     }
 }

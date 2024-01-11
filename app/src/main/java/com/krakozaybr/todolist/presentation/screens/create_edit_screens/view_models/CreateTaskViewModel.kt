@@ -1,7 +1,6 @@
 package com.krakozaybr.todolist.presentation.screens.create_edit_screens.view_models
 
 import com.krakozaybr.todolist.R
-import com.krakozaybr.todolist.di.qualifiers.TaskInitialDate
 import com.krakozaybr.todolist.domain.task.Task
 import com.krakozaybr.todolist.domain.task.use_cases.CreateTaskUseCase
 import com.krakozaybr.todolist.domain.task.use_cases.ValidateNameUseCase
@@ -10,18 +9,20 @@ import com.krakozaybr.todolist.presentation.screens.create_edit_screens.SavingSt
 import com.krakozaybr.todolist.presentation.screens.create_edit_screens.ScreenState
 import com.krakozaybr.todolist.presentation.validation.UiText
 import com.krakozaybr.todolist.presentation.validation.ValidationMapper
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
-import javax.inject.Inject
 
-@HiltViewModel
-class CreateTaskViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = CreateTaskViewModel.Factory::class)
+class CreateTaskViewModel @AssistedInject constructor(
     validateNameUseCase: ValidateNameUseCase,
     validateTimeRangeUseCase: ValidateTimeRangeUseCase,
     validationMapper: ValidationMapper,
     private val createTaskUseCase: CreateTaskUseCase,
-    @TaskInitialDate
+    @Assisted
     private val taskInitialDate: LocalDate
 ) : CreateEditTaskViewModel(
     validateNameUseCase = validateNameUseCase,
@@ -50,5 +51,11 @@ class CreateTaskViewModel @Inject constructor(
             updateSavingState(SavingState.Error(UiText.StringResource(R.string.error_saving)))
         }
     }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(taskInitialDate: LocalDate): CreateTaskViewModel
+    }
+
 
 }

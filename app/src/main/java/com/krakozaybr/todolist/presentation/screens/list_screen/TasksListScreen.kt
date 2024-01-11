@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.krakozaybr.todolist.domain.task.Task
 import com.krakozaybr.todolist.presentation.components.ContentWithBottomSheet
 import com.krakozaybr.todolist.presentation.components.ContentWithBottomSheetState
@@ -47,7 +46,7 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TasksListScreen(
-    tasksListVM: TasksListViewModel = hiltViewModel(),
+    tasksListVM: TasksListViewModel,
     showTaskInfo: (Task) -> Unit,
     showTaskCreate: (LocalDate) -> Unit,
 ) {
