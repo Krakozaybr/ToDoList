@@ -1,6 +1,5 @@
 package com.krakozaybr.todolist.presentation.screens.create_edit_screens.view_models
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.krakozaybr.todolist.domain.task.Task
@@ -85,8 +84,7 @@ abstract class CreateEditTaskViewModel(
         curState: ScreenState.TaskInfo = requireTaskLoaded(),
         name: String = requireTaskLoaded().name
     ): Boolean {
-        val nameError = validationMapper(validateNameUseCase(curState.name))
-        Log.d("validateName", "validateName: ${curState.name}")
+        val nameError = validationMapper(validateNameUseCase(name))
         _screenState.value = curState.copy(
             name = name,
             nameError = nameError.errorMessage
