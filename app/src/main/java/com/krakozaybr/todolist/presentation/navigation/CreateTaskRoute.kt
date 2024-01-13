@@ -24,7 +24,7 @@ data class CreateTaskRoute(val date: LocalDate) : Screen {
         CreateTaskScreen(
             viewModel = viewModel,
             onBackPressed = {
-                navigator replace MainRoute
+                navigator.popUntilRoot()
             },
             navigateToTask = {
                 navigator replace EditTaskRoute(it)

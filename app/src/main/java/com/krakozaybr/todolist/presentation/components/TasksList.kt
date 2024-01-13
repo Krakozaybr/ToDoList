@@ -72,11 +72,13 @@ fun TasksList(
     deleteItem: (Task) -> Unit,
     addTask: () -> Unit,
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(),
     listState: LazyListState = rememberLazyListState(),
 ) {
     LazyColumn(
         modifier = modifier,
         state = listState,
+        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 

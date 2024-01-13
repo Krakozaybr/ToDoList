@@ -20,10 +20,10 @@ object MainRoute : Screen {
         TasksListScreen(
             tasksListVM = viewModel,
             showTaskInfo = {
-                navigator replace EditTaskRoute(it.id)
+                navigator push EditTaskRoute(it.id)
             },
             showTaskCreate = {
-                navigator replace CreateTaskRoute(it)
+                navigator push CreateTaskRoute(it)
             },
         )
     }

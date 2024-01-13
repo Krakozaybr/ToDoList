@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 Surface {
-                    Navigator(MainRoute) {
+                    Navigator(MainRoute, onBackPressed = { it is MainRoute }) {
                         FadeTransition(it)
                     }
                 }

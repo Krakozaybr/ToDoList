@@ -24,7 +24,7 @@ data class EditTaskRoute(val taskId: Int) : Screen {
         EditTaskScreen(
             viewModel = viewModel,
             onBackPressed = {
-                navigator replace MainRoute
+                navigator.popUntilRoot()
             }
         )
 

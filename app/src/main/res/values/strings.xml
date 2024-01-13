@@ -27,4 +27,7 @@
     <string name="add_task_button">Add task button</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="partial_expand">Partial expand</string>
+    <string name="dismiss_action">Dismiss action</string>
+    <string name="expand">Expand</string>
 </resources>

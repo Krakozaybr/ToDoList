@@ -15,32 +15,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.krakozaybr.todolist.domain.task.Task
-import com.krakozaybr.todolist.presentation.components.ContentWithBottomSheet
-import com.krakozaybr.todolist.presentation.components.ContentWithBottomSheetState
 import com.krakozaybr.todolist.presentation.components.EmptyTasksList
 import com.krakozaybr.todolist.presentation.components.FullDatePicker
 import com.krakozaybr.todolist.presentation.components.Loading
 import com.krakozaybr.todolist.presentation.components.TasksCalendar
 import com.krakozaybr.todolist.presentation.components.TasksList
-import com.krakozaybr.todolist.presentation.components.rememberContentWithBottomSheetState
+import com.krakozaybr.todolist.presentation.components.bottom_sheet.ContentWithBottomSheet
+import com.krakozaybr.todolist.presentation.components.bottom_sheet.ContentWithBottomSheetState
+import com.krakozaybr.todolist.presentation.components.bottom_sheet.rememberContentWithBottomSheetState
 import com.krakozaybr.todolist.presentation.components.rememberTasksCalendarState
 import com.krakozaybr.todolist.presentation.components.rememberTasksDatePickerState
-import com.krakozaybr.todolist.presentation.theme.AppTheme
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -142,6 +134,7 @@ private fun TasksListScreenCalendar(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TasksListScreenBottomSheet(
     contentWithBottomSheetState: ContentWithBottomSheetState,
@@ -196,8 +189,8 @@ private fun TasksListScreenBottomSheet(
                     deleteItem = deleteItem,
                     addTask = addTask,
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(12.dp)
+                        .fillMaxSize(),
+                    contentPadding = PaddingValues(12.dp)
                 )
             }
 
@@ -208,41 +201,6 @@ private fun TasksListScreenBottomSheet(
                         .height(sheetPeekHeight)
                 )
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-fun NestedScrollingSample() {
-    AppTheme {
-        Surface {
-            BottomSheetScaffold(
-                modifier = Modifier
-                    .fillMaxSize(),
-                content = {
-                    Text(text = "Lolkek", style = MaterialTheme.typography.headlineMedium)
-                },
-                sheetSwipeEnabled = false,
-                sheetDragHandle = null,
-                sheetShape = RectangleShape,
-                sheetPeekHeight = 400.dp,
-                sheetContent = {
-                    LazyColumn {
-                        items(20) {
-                            Card(
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = "Card $it",
-                                    modifier = Modifier.padding(12.dp)
-                                )
-                            }
-                        }
-                    }
-                }
-            )
         }
     }
 }
