@@ -8,7 +8,6 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -139,7 +138,7 @@ private fun AddTaskIconButton(
 ) {
     Button(
         modifier = modifier
-            .width(IntrinsicSize.Min)
+            .size(50.dp)
             .aspectRatio(1f),
         onClick = onClick,
         shape = CircleShape,
@@ -448,14 +447,21 @@ fun TaskNotDoneItemPreview() {
 
 @Composable
 fun EmptyTasksList(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    addTask: () -> Unit
 ) {
     Box(modifier) {
-        Text(
+        Column (
             modifier = Modifier.align(Alignment.Center),
-            text = stringResource(id = R.string.list_is_empty),
-            style = MaterialTheme.typography.headlineMedium
-        )
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.list_is_empty),
+                style = MaterialTheme.typography.headlineMedium
+            )
+            AddTaskIconButton(onClick = addTask)
+        }
     }
 }
 
@@ -464,7 +470,7 @@ fun EmptyTasksList(
 fun EmptyTasksListPreview() {
     AppTheme {
         Surface {
-            EmptyTasksList(modifier = Modifier.fillMaxSize())
+            EmptyTasksList(modifier = Modifier.fillMaxSize()) {}
         }
     }
 }

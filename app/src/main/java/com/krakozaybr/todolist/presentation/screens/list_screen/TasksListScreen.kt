@@ -198,7 +198,8 @@ private fun TasksListScreenBottomSheet(
                 EmptyTasksList(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(sheetPeekHeight)
+                        .height(sheetPeekHeight),
+                    addTask = addTask
                 )
             }
         }
