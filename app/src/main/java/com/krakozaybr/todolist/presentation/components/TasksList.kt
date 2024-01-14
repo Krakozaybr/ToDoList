@@ -356,9 +356,9 @@ fun TaskItemBody(
                 ) {
                     Icon(
                         imageVector = if (it) {
-                            Icons.Outlined.CheckCircle
-                        } else {
                             Icons.Default.CheckCircle
+                        } else {
+                            Icons.Outlined.CheckCircle
                         },
                         contentDescription = stringResource(id = R.string.task_done_indicator)
                     )
