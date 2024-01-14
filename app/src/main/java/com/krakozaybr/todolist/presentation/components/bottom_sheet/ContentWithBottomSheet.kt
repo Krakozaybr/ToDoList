@@ -84,7 +84,7 @@ fun ContentWithBottomSheet(
         sheetState = sheetState,
         snackbarHost = { snackbarHost(snackbarHostState) },
         bottomSheet = { layoutHeight ->
-            BottomSheet(
+            VisibleBottomSheet(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.surface),
                 state = sheetState,

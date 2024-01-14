@@ -366,7 +366,7 @@ fun TaskItemBody(
                 }
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = task.name + " " + task.id,
+                    text = task.name,
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }

@@ -50,7 +50,7 @@ class EditTaskViewModel @AssistedInject constructor(
     }
 
     override suspend fun deleteTask(task: Task) {
-        deleteTaskUseCase(task)
+        deleteTaskUseCase(task.copy(id = taskId))
     }
 
     override suspend fun saveTask(task: Task) {

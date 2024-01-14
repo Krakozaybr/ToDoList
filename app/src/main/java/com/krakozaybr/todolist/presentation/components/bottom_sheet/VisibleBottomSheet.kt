@@ -31,7 +31,7 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheet(
+fun VisibleBottomSheet(
     state: SheetState,
     modifier: Modifier = Modifier,
     peekHeight: Dp,
@@ -88,16 +88,13 @@ fun BottomSheet(
                 anchorChangeHandler = anchorChangeHandler
             ) { value, sheetSize ->
                 when (value) {
-                    SheetValue.PartiallyExpanded -> if (state.skipPartiallyExpanded)
-                        null else layoutHeight - peekHeightPx
-
                     SheetValue.Expanded -> if (sheetSize.height == peekHeightPx.roundToInt()) {
                         null
                     } else {
                         maxOf(0f, layoutHeight - sheetSize.height)
                     }
 
-                    SheetValue.Hidden -> if (state.skipHiddenState) null else layoutHeight
+                    else -> layoutHeight - peekHeightPx
                 }
             },
     ) {

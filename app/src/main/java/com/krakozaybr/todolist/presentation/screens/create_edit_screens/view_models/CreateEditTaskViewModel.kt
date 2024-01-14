@@ -75,6 +75,7 @@ abstract class CreateEditTaskViewModel(
     private fun deleteTask() {
         viewModelScope.launch (Dispatchers.IO) {
             deleteTask(getTask())
+            updateSavingState(SavingState.Deleted)
         }
     }
 
