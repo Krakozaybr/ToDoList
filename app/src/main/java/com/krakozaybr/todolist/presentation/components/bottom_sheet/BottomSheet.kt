@@ -4,7 +4,6 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -102,9 +101,7 @@ fun BottomSheet(
                 }
             },
     ) {
-        Column(
-            Modifier.fillMaxSize()
-        ){
+        Column{
             if (dragHandle != null) {
                 val partialExpandActionLabel = stringResource(id = R.string.partial_expand)
                 val dismissActionLabel = stringResource(id = R.string.dismiss_action)

@@ -89,6 +89,7 @@ fun ContentWithBottomSheet(
                     .background(MaterialTheme.colorScheme.surface),
                 state = sheetState,
                 dragHandle = null,
+                sheetSwipeEnabled = false,
                 peekHeight = state.sheetPeekHeight,
                 content = sheetContent,
                 layoutHeight = layoutHeight.toFloat()
