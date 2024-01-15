@@ -125,18 +125,18 @@ private fun ContentBottomSheetLayout(
             content(PaddingValues())
         }[0].measure(bodyConstraints)
 
-        val peekHeight = bodyPlaceable.measuredHeight.toDp() - StatusBarHeight
+        // offset can be null after restoring (during navigation)
+        val peekHeight = layoutHeight - bodyPlaceable.height
+
         // Updating state before measuring bottom sheet!!!
-        state.sheetPeekHeight = peekHeight
+        state.sheetPeekHeight = peekHeight.toDp()
 
         val sheetPlaceable = subcompose(ContentWithBottomSheetSlot.Sheet) {
             bottomSheet(layoutHeight)
         }[0].measure(looseConstraints)
 
-        // offset can be null after restoring (during navigation)
-        val sheetOffsetY = ((sheetState.offset?.roundToInt()
-            ?: (layoutHeight - peekHeight.toPx().toInt())))
-        val sheetOffsetX = Integer.max(0, (layoutWidth - sheetPlaceable.width) / 2)
+        val sheetOffsetX = maxOf(0, (layoutWidth - sheetPlaceable.width) / 2)
+        val sheetOffsetY = sheetState.offset?.roundToInt() ?: (layoutHeight - peekHeight)
 
         val snackbarPlaceable = subcompose(
             ContentWithBottomSheetSlot.Snackbar, snackbarHost
@@ -156,8 +156,6 @@ private fun ContentBottomSheetLayout(
         }
     }
 }
-
-val StatusBarHeight = 24.dp
 
 private enum class ContentWithBottomSheetSlot {
     TopBar,
