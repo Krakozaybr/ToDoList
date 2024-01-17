@@ -18,8 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.krakozaybr.todolist.domain.task.Task
@@ -38,12 +36,13 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TasksListScreen(
-    tasksListVM: TasksListViewModel,
+    state: State,
+    changeDoneState: (Task) -> Unit,
+    deleteItem: (Task) -> Unit,
     showTaskInfo: (Task) -> Unit,
     showTaskCreate: (LocalDate) -> Unit,
+    updateDate: (LocalDate) -> Unit,
 ) {
-    val state by tasksListVM.state.collectAsState()
-
     val contentWithBottomSheetState = rememberContentWithBottomSheetState()
 
     ContentWithBottomSheet(
@@ -53,7 +52,7 @@ fun TasksListScreen(
         content = {
             TasksListScreenCalendar(
                 state = state,
-                updateDate = tasksListVM::updateDate
+                updateDate = updateDate
             )
         },
         sheetContent = {
@@ -63,8 +62,8 @@ fun TasksListScreen(
                 showItemDescription = {
                     showTaskInfo(it)
                 },
-                changeDoneState = tasksListVM::changeDoneState,
-                deleteItem = tasksListVM::deleteTask,
+                changeDoneState = changeDoneState,
+                deleteItem = deleteItem,
                 addTask = {
                     showTaskCreate(state.date)
                 }

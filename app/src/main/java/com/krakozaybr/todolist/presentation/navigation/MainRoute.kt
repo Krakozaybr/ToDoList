@@ -1,6 +1,7 @@
 package com.krakozaybr.todolist.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -18,13 +19,16 @@ object MainRoute : Screen {
         val viewModel = getViewModel<TasksListViewModel>()
 
         TasksListScreen(
-            tasksListVM = viewModel,
             showTaskInfo = {
                 navigator push EditTaskRoute(it.id)
             },
             showTaskCreate = {
                 navigator push CreateTaskRoute(it)
             },
+            changeDoneState = viewModel::changeDoneState,
+            updateDate = viewModel::updateDate,
+            deleteItem = viewModel::deleteTask,
+            state = viewModel.state.collectAsState().value
         )
     }
 }
