@@ -1,6 +1,6 @@
 package com.krakozaybr.todolist.di
 
-import com.krakozaybr.todolist.data.TestTaskRepository
+import com.krakozaybr.todolist.data.DatabaseTaskRepository
 import com.krakozaybr.todolist.domain.task.TaskRepository
 import dagger.Binds
 import dagger.Module
@@ -14,6 +14,6 @@ interface DataTaskModule {
 
     @Singleton
     @Binds
-    fun bindTaskRepository(repo: TestTaskRepository): TaskRepository
+    fun bindTaskRepository(repo: DatabaseTaskRepository): TaskRepository
 
 }
