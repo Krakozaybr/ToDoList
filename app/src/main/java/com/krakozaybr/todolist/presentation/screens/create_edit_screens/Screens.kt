@@ -26,7 +26,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -44,8 +43,6 @@ import com.krakozaybr.todolist.presentation.components.SaveButton
 import com.krakozaybr.todolist.presentation.components.TaskDateInput
 import com.krakozaybr.todolist.presentation.components.TaskSwitch
 import com.krakozaybr.todolist.presentation.components.TaskTimeInput
-import com.krakozaybr.todolist.presentation.screens.create_edit_screens.view_models.CreateTaskViewModel
-import com.krakozaybr.todolist.presentation.screens.create_edit_screens.view_models.EditTaskViewModel
 import com.krakozaybr.todolist.presentation.theme.AppTheme
 import java.time.LocalDate
 import java.time.LocalTime
@@ -271,71 +268,60 @@ private fun ScreenContent(
 
 @Composable
 fun CreateTaskScreen(
-    viewModel: CreateTaskViewModel,
-    navigateToTask: (Int) -> Unit,
-    onBackPressed: () -> Unit
+    state: ScreenState,
+    onBackPressed: () -> Unit,
+    onEvent: (Event) -> Unit,
 ) {
-
-    val state by viewModel.state.collectAsState()
 
     ScreenContent(
         state = state,
         topAppBarText = stringResource(id = R.string.create_task),
         onBackPressed = onBackPressed,
-        onEvent = viewModel::onEvent,
+        onEvent = onEvent,
         bottomBar = {
             Row(
                 modifier = Modifier.padding(12.dp)
             ) {
                 SaveButton {
-                    viewModel.onEvent(Event.SaveEvent)
+                    onEvent(Event.SaveEvent)
                 }
             }
         }
     )
-
-    with(state) {
-        if (this is ScreenState.TaskInfo && this.savingState is SavingState.SavedSuccessfully) {
-            navigateToTask(this.savingState.taskId)
-        }
-    }
 }
 
 @Composable
 fun EditTaskScreen(
-    viewModel: EditTaskViewModel,
+    state: ScreenState,
+    onEvent: (Event) -> Unit,
     onBackPressed: () -> Unit
 ) {
-
-    val state by viewModel.state.collectAsState()
 
     ScreenContent(
         state = state,
         topAppBarText = stringResource(id = R.string.edit_task),
         onBackPressed = onBackPressed,
-        onEvent = viewModel::onEvent,
+        onEvent = onEvent,
         bottomBar = {
             Row(
                 modifier = Modifier.padding(12.dp),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                SaveButton(modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 12.dp)) {
-                    viewModel.onEvent(Event.SaveEvent)
+                SaveButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 12.dp)
+                ) {
+                    onEvent(Event.SaveEvent)
                 }
-                DeleteButton(modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 12.dp)) {
-                    viewModel.onEvent(Event.DeleteEvent)
+                DeleteButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 12.dp)
+                ) {
+                    onEvent(Event.DeleteEvent)
                 }
             }
         }
     )
-
-    with(state) {
-        if (this is ScreenState.TaskInfo && this.savingState is SavingState.Deleted) {
-            onBackPressed()
-        }
-    }
 }
