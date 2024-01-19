@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.krakozaybr.todolist.R
 import com.krakozaybr.todolist.domain.task.Task
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.SortedMap
 
@@ -43,3 +44,19 @@ fun Task.timePeriodString(): String {
         finish
     )
 }
+
+fun emptyTask(
+    dateStart: LocalDateTime = LocalDateTime.now(),
+    dateFinish: LocalDateTime = dateStart.plusHours(1),
+    name: String = "",
+    description: String = "",
+    done: Boolean = false,
+    id: Int = Task.UNDEFINED_ID
+) = Task(
+    dateStart = dateStart,
+    dateFinish = dateFinish,
+    name = name,
+    description = description,
+    done = done,
+    id = id
+)
