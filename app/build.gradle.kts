@@ -105,8 +105,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.test:core-ktx:1.5.0")
-    implementation("androidx.test.ext:junit-ktx:1.1.5")
 
     // Voyager navigation
     val voyagerVersion = "1.1.0-alpha02"
