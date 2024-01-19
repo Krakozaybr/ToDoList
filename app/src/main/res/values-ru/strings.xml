@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="next_month">Следующий месяц</string>
+    <string name="previous_month">Предыдущий месяц</string>
+    <string name="today">Сегодня</string>
+    <string name="checked">Выбранное</string>
+    <string name="click_for_detail">Нажмите на карточку для детальной информации</string>
+    <string name="loading">Загрузка</string>
+    <string name="list_is_empty">Список пуст</string>
+    <string name="name">Имя</string>
+    <string name="description">Описание</string>
+    <string name="error_name_empty">Имя не может быть пустым</string>
+    <string name="error_name_blank">Имя не может состоять только из пробельных символов</string>
+    <string name="error_time_order">Время начала не может быть позже времени конца</string>
+    <string name="error_saving">Ошибка во время сохранения дела</string>
+    <string name="task_date">Дата дела</string>
+    <string name="task_start_time">Время начала</string>
+    <string name="task_finish_time">Время конца</string>
+    <string name="task_done">Дело сделано</string>
+    <string name="saving">Сохранение</string>
+    <string name="saved_successfully">Сохранено успешно</string>
+    <string name="create_task">Создать дело</string>
+    <string name="go_back_button">Кнопка \"Назад\"</string>
+    <string name="edit_task">Изменить дело</string>
+    <string name="add_task_button">Кнопка для добавления дела</string>
+    <string name="save">Сохранить</string>
+    <string name="delete">Удалить</string>
+</resources>

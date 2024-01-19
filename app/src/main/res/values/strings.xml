@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">ToDoList</string>
+    <string name="app_name" translatable="false">ToDoList</string>
     <string name="next_month">Next month</string>
     <string name="previous_month">Previous month</string>
     <string name="today">Today</string>
     <string name="checked">Checked</string>
-    <string name="task_done_indicator">Task is done indicator</string>
+    <string name="task_done_indicator" translatable="false">Task is done indicator</string>
     <string name="click_for_detail">Click on task for details</string>
     <string name="loading">Loading</string>
     <string name="list_is_empty">List is empty</string>
@@ -14,7 +14,7 @@
     <string name="error_name_blank">Name cannot be blank</string>
     <string name="error_time_order">Start time cannot be after or equal to finish time</string>
     <string name="error_saving">Error while saving task</string>
-    <string name="time_range">%s - %s</string>
+    <string name="time_range" translatable="false">%s - %s</string>
     <string name="task_date">Date of task</string>
     <string name="task_start_time">Task start time</string>
     <string name="task_finish_time">Task finish time</string>
@@ -27,12 +27,12 @@
     <string name="add_task_button">Add task button</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
-    <string name="partial_expand">Partial expand</string>
-    <string name="dismiss_action">Dismiss action</string>
-    <string name="expand">Expand</string>
-    <string name="default_time_format">HH:mm</string>
-    <string name="default_date_format">dd.MM.yyyy</string>
-    <string name="default_hour_format">%02d:00</string>
-    <string name="default_month_format">LLLL yyyy</string>
-    <string name="time_period_format">%s - %s</string>
+    <string name="partial_expand" translatable="false">Partial expand</string>
+    <string name="dismiss_action" translatable="false">Dismiss action</string>
+    <string name="expand" translatable="false">Expand</string>
+    <string name="default_time_format" translatable="false">HH:mm</string>
+    <string name="default_date_format" translatable="false">dd.MM.yyyy</string>
+    <string name="default_hour_format" translatable="false">%02d:00</string>
+    <string name="default_month_format" translatable="false">LLLL yyyy</string>
+    <string name="time_period_format" translatable="false">%s - %s</string>
 </resources>

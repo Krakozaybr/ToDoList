@@ -32,7 +32,7 @@ class CreateTaskViewModel @AssistedInject constructor(
 
     init {
         _screenState.value = ScreenState.TaskInfo(
-            name = "f",
+            name = "",
             description = "",
             done = false,
             startTime = LocalTime.now(),
