@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">ToDoList</string>
+    <string name="app_name">ToDoList</string>
     <string name="next_month">Next month</string>
     <string name="previous_month">Previous month</string>
     <string name="today">Today</string>
