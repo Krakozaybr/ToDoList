@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kizitonwose.calendar.core.atStartOfMonth
 import com.krakozaybr.todolist.presentation.theme.AppTheme
-import com.krakozaybr.todolist.presentation.toLocalDate
-import com.krakozaybr.todolist.presentation.toUtcEpochMillis
+import com.krakozaybr.todolist.utils.toLocalDate
+import com.krakozaybr.todolist.utils.toUtcEpochMillis
 import java.time.LocalDate
 import java.time.YearMonth
 

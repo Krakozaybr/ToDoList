@@ -53,11 +53,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.krakozaybr.todolist.R
 import com.krakozaybr.todolist.domain.task.Task
-import com.krakozaybr.todolist.presentation.Hour
-import com.krakozaybr.todolist.presentation.groupByHour
+import com.krakozaybr.todolist.utils.Hour
+import com.krakozaybr.todolist.utils.groupByHour
 import com.krakozaybr.todolist.presentation.theme.AppTheme
-import com.krakozaybr.todolist.presentation.timePeriodString
-import com.krakozaybr.todolist.presentation.toHourFormatString
+import com.krakozaybr.todolist.utils.timePeriodString
+import com.krakozaybr.todolist.utils.toHourFormatString
 import java.time.LocalDateTime
 import java.util.PriorityQueue
 

@@ -61,7 +61,7 @@ import com.kizitonwose.calendar.core.previousMonth
 import com.kizitonwose.calendar.core.yearMonth
 import com.krakozaybr.todolist.R
 import com.krakozaybr.todolist.presentation.theme.AppTheme
-import com.krakozaybr.todolist.presentation.toMonthString
+import com.krakozaybr.todolist.utils.toMonthString
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.YearMonth
