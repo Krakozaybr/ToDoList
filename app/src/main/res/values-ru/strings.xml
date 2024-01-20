@@ -8,7 +8,7 @@
     <string name="click_for_detail">Нажмите на карточку для детальной информации</string>
     <string name="loading">Загрузка</string>
     <string name="list_is_empty">Список пуст</string>
-    <string name="name">Имя</string>
+    <string name="name">Название</string>
     <string name="description">Описание</string>
     <string name="error_name_empty">Имя не может быть пустым</string>
     <string name="error_name_blank">Имя не может состоять только из пробельных символов</string>
