@@ -55,7 +55,7 @@ class EditTaskViewModel @AssistedInject constructor(
 
     override suspend fun saveTask(task: Task) {
         try {
-            editTaskUseCase(task)
+            editTaskUseCase(task.copy(id = taskId))
             updateSavingState(SavingState.SavedSuccessfully(task.id))
         } catch (e: Exception) {
             updateSavingState(SavingState.Error(UiText.StringResource(R.string.error_saving)))
