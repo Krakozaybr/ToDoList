@@ -1,4 +1,4 @@
-# Тестовое задание для Simbirsoft
+# ToDoApp
 Основной функционал показан на .gif ниже
 
 ![Example of using](/images/preview.gif)
